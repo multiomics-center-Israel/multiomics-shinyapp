@@ -1,0 +1,4 @@
+Researcher	Researcher Name
+Project	Project title
+Description	Short description of the experiment and its aims.\nSecond paragraph of the description.
+Bioinformatics_Team	vered,michal,oz,shelly,dor

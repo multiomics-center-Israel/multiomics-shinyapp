@@ -1,0 +1,5 @@
+# Code owners for multiomics-shinyapp.
+# With the "protect-main" ruleset option "Require review from Code Owners", every pull
+# request into main needs an approval from the owner below. This file is itself covered
+# by "*", so changes to it also need the owner's approval.
+* @shelly-haimlich-bgu

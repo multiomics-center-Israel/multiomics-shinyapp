@@ -1,0 +1,66 @@
+# =============================================================================
+# multiomics-shinyapp — keep researcher data out of Git
+# =============================================================================
+# This repository is shared. Only the application code, generic images and the
+# two *.example.* templates in data/ may be tracked. Everything a researcher adds
+# — including the runtime files data/home_info.txt and
+# data/Data_&_Files/Data_&_Files_manifest.xlsx created from the examples —
+# must stay local.
+# NOTE: .gitignore is only one layer of protection — always review
+# `git status` / `git diff --cached` before committing.
+
+# ---- data/: ignore everything except the two example templates ---------------
+/data/*
+!/data/home_info.example.txt
+!/data/Data_&_Files/
+/data/Data_&_Files/*
+!/data/Data_&_Files/Data_&_Files_manifest.example.xlsx
+
+# ---- Research data and results, anywhere in the repository -------------------
+*.rds
+*.RDS
+*.RData
+*.rda
+*.xlsx
+*.xls
+*.csv
+*.tsv
+*.docx
+*.pptx
+*.pdf
+# (re-allow the example manifest template after the *.xlsx rule above)
+!/data/Data_&_Files/Data_&_Files_manifest.example.xlsx
+
+# ---- R / RStudio -------------------------------------------------------------
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+*.Rproj
+rsconnect/
+restart.txt
+
+# ---- Office / OS temporary files ----------------------------------------------
+~$*
+*.tmp
+*.bak
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- Editors and local tooling -----------------------------------------------
+.vscode/
+.idea/
+.claude/
+*.code-workspace
+
+# ---- Credentials and secrets -------------------------------------------------
+.env
+.env.*
+.Renviron
+*.pem
+*.key
+*.p12
+*.pfx
+Order.yaml
