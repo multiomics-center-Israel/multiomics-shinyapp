@@ -205,7 +205,7 @@ Plain text, one field per line, **field name, a TAB character, then the value**:
 Researcher<TAB>Researcher Name
 Project<TAB>Project title
 Description<TAB>Short description of the experiment and its aims.\nSecond paragraph of the description.
-Bioinformatics_Team<TAB>vered,michal,oz,shelly,dor
+Bioinformatics_Team<TAB>vered,oz,michal,shelly,or,dor
 ```
 
 - The four field names must stay exactly as shown.
