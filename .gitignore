@@ -2,16 +2,18 @@
 # multiomics-shinyapp — keep researcher data out of Git
 # =============================================================================
 # This repository is shared. Only the application code, generic images and the
-# two *.example.* templates in data/ may be tracked. Everything a researcher adds
-# — including the runtime files data/home_info.txt and
-# data/Data_&_Files/Data_&_Files_manifest.xlsx created from the examples —
-# must stay local.
+# *.example.* templates in data/ may be tracked. Everything a researcher adds
+# — including the runtime files data/home_info.txt, data/experiment_design.xlsx,
+# data/Matching_genes_proteins.xlsx and data/Data_&_Files/Data_&_Files_manifest.xlsx
+# created from the examples — must stay local.
 # NOTE: .gitignore is only one layer of protection — always review
 # `git status` / `git diff --cached` before committing.
 
-# ---- data/: ignore everything except the two example templates ---------------
+# ---- data/: ignore everything except the example templates -------------------
 /data/*
 !/data/home_info.example.txt
+!/data/experiment_design.example.xlsx
+!/data/Matching_genes_proteins.example.xlsx
 !/data/Data_&_Files/
 /data/Data_&_Files/*
 !/data/Data_&_Files/Data_&_Files_manifest.example.xlsx
@@ -28,7 +30,9 @@
 *.docx
 *.pptx
 *.pdf
-# (re-allow the example manifest template after the *.xlsx rule above)
+# (re-allow the example Excel templates after the *.xlsx rule above)
+!/data/experiment_design.example.xlsx
+!/data/Matching_genes_proteins.example.xlsx
 !/data/Data_&_Files/Data_&_Files_manifest.example.xlsx
 
 # ---- R / RStudio -------------------------------------------------------------

@@ -11,8 +11,6 @@ library(writexl)
 library(openxlsx)
 library(DT)
 library(dplyr)
-library(stringr)
-library(viridisLite)
 library(pheatmap)
 library(grid)
 library(bcrypt)
@@ -104,6 +102,14 @@ TEAM_REGISTRY <- list(
     shiny::tags$i(class = "fa-solid fa-envelope",       style = "margin-right: 5px;"), " haimlich@bgu.ac.il",   shiny::tags$br(),
     shiny::tags$i(class = "fa-solid fa-phone",          style = "margin-right: 5px;"), " 052-6373652"
   ),
+  or = function() shiny::tags$div(style = .team_card_style,
+    shiny::tags$img(src = "or.jpg",
+      style = "width:120px; height:120px; object-fit:cover; border-radius:50%; margin-bottom:10px; border: 2px solid #ccc;"),
+    shiny::tags$br(),
+    shiny::tags$strong("Or Lazarescu, Ph.D."), shiny::tags$br(),
+    shiny::tags$i(class = "fa-solid fa-graduation-cap", style = "margin-right: 5px;"), " Ben-Gurion University", shiny::tags$br(),
+    shiny::tags$i(class = "fa-solid fa-envelope",       style = "margin-right: 5px;"), " lazaresc@post.bgu.ac.il"
+  ),
   dor = function() shiny::tags$div(style = .team_card_style,
     shiny::tags$img(src = "dor.png",
       style = "width:120px; height:120px; object-fit:cover; border-radius:50%; margin-bottom:10px; border: 2px solid #ccc;"),
@@ -119,7 +125,7 @@ TEAM_REGISTRY <- list(
 # Uses flexbox so any number of cards fills the row without Bootstrap grid gaps.
 # Falls back to all members if Bioinformatics_Team is empty/missing.
 build_team_ui <- function() {
-  default_order <- c("vered", "michal", "oz", "shelly", "dor")
+  default_order <- c("vered", "michal", "oz", "shelly", "or", "dor")
   keys <- if (length(BIOINFO_TEAM) > 0) {
     BIOINFO_TEAM[BIOINFO_TEAM %in% names(TEAM_REGISTRY)]
   } else {

@@ -46,25 +46,32 @@ app_server <- function(input, output, session) {
   
   # Load the experiment design Excel (sample annotations table)
   excel_path <- "data/experiment_design.xlsx"
-  experiment_design <- if (file.exists(excel_path)) read_excel(excel_path) else NULL
+  # An unreadable file (e.g. not a real .xlsx) must not end the session: keep the
+  # error object so the tab can show a message, and log the details for debugging.
+  experiment_design <- if (file.exists(excel_path)) {
+    tryCatch(read_excel(excel_path), error = function(e) {
+      warning("Could not read ", excel_path, ": ", conditionMessage(e), call. = FALSE)
+      e
+    })
+  } else NULL
   
   # Render the Experiment design table with YES checkmarks
   output$col_table <- renderDT({
     validate(
-      need(file.exists(excel_path), "Experiment design table not available"),
-      need(!is.null(experiment_design), "Experiment design table not available")
+      need(!is.null(experiment_design), "Experiment design table not available"),
+      need(!inherits(experiment_design, "error"), "Experiment design file could not be loaded.")
     )
+    # A first worksheet without any columns would otherwise render as an empty area
+    validate(need(ncol(experiment_design) > 0, "Experiment design table is empty."))
     
     df <- experiment_design
     assay_cols <- c("RNAseq", "Proteomics", "Metabolomics", "Lipidomics")
     
-    # If expected assay columns are missing, show the raw table
-    if (!all(assay_cols %in% colnames(df))) {
-      return(datatable(df, options = list(dom = "t"), rownames = FALSE))
-    }
+    # Format whichever assay columns the workbook has; other columns are shown as-is
+    present_assays <- intersect(assay_cols, colnames(df))
     
     # Replace YES with a green checkmark
-    df[assay_cols] <- lapply(df[assay_cols], function(x) {
+    df[present_assays] <- lapply(df[present_assays], function(x) {
       ifelse(
         x == "YES",
         "<span style='color: green; font-size: 24px;'>&#10004;</span>",
@@ -72,11 +79,14 @@ app_server <- function(input, output, session) {
       )
     })
     
+    # paging = FALSE: always show every sample row (dom = "t" hides the pager, so the
+    # DataTables default of 10 rows per page would silently hide the rest).
+    # Only the check-mark columns contain HTML; all other columns stay escaped.
     datatable(
       df,
-      options  = list(dom = "t", pageLength = nrow(df)),
+      options  = list(dom = "t", paging = FALSE),
       rownames = FALSE,
-      escape   = FALSE
+      escape   = setdiff(colnames(df), present_assays)
     )
   })
   
